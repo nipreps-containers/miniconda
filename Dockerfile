@@ -1,4 +1,26 @@
-# This file is a copy of https://github.com/ContinuumIO/docker-images/blob/737e57d3997a079897cc6fc95ff9097ffee19fad/miniconda3/alpine/Dockerfile
+# MIT License
+#
+# Copyright (c) 2021 The NiPreps Developers
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# This file is derived from https://github.com/ContinuumIO/docker-images/blob/737e57d3997a079897cc6fc95ff9097ffee19fad/miniconda3/alpine/Dockerfile
 # and the corresponding copyright notice is reproduced below.
 #
 # Except where noted below, docker-miniconda is released under the following terms:
@@ -82,8 +104,8 @@ LABEL maintainer="Anaconda, Inc"
 ENV PATH /opt/conda/bin:$PATH
 
 # Leave these args here to better use the Docker build cache
-ARG CONDA_VERSION=py39_4.10.3
-ARG SHA256SUM=1ea2f885b4dbc3098662845560bc64271eb17085387a70c2ba3f29fff6f8d52f
+ARG CONDA_VERSION=py38_4.10.3
+ARG SHA256SUM=935d72deb16e42739d69644977290395561b7a6db059b316958d97939e9bdf3d
 
 # hadolint ignore=DL3018
 RUN apk add -q --no-cache bash procps && \
@@ -99,5 +121,31 @@ RUN apk add -q --no-cache bash procps && \
     find /opt/conda/ -follow -type f -name '*.a' -delete && \
     find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
     /opt/conda/bin/conda clean -afy
+
+RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
+                     python=3.8 \
+                     git-annex=*=alldep* \
+                     graphviz=2.49 \
+                     libxml2=2.9 \
+                     libxslt=1.1 \
+                     matplotlib=3.3 \
+                     mkl-service=2.4 \
+                     mkl=2021.3 \
+                     nodejs=16 \
+                     numpy=1.20 \
+                     pandas=1.2 \
+                     pandoc=2.14 \
+                     pip=21.2 \
+                     scikit-image=0.18 \
+                     scikit-learn=0.24 \
+                     scipy=1.6 \
+                     setuptools=58.2 \
+                     traits=6.2 \
+                     zlib=1.2 \
+                     zstd=1.5; sync && \
+    chmod -R a+rX /opt/conda; sync && \
+    chmod +x /opt/conda/bin/*; sync && \
+    /opt/conda/bin/conda clean -afy && sync && \
+    rm -rf ~/.conda ~/.cache/pip/*; sync
 
 CMD ["/bin/bash"]
