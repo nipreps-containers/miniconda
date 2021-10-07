@@ -152,4 +152,6 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
 RUN /opt/conda/bin/python -c "from matplotlib import font_manager" && \
     sed -i 's/\(backend *: \).*$/\1Agg/g' $( /opt/conda/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
 
+RUN pip install --no-cache-dir templateflow
+
 CMD ["/bin/bash"]
