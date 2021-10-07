@@ -6,10 +6,8 @@ on:
     # Publish `main` as Docker `latest` image.
     branches:
       - main
-
-    # Publish `v1.2.3` tags as releases.
-    tags:
-      - '*'
+  release:
+    types: [published]
 
   # Run tests for any PRs.
   pull_request:
@@ -22,8 +20,6 @@ jobs:
   # See also https://docs.docker.com/docker-hub/builds/
   push:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
     steps:
       - uses: actions/checkout@v2
 
@@ -38,6 +34,7 @@ jobs:
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Push image to GitHub Container Registry
+        if: github.event_name == 'release'
         run: |
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
           # Change all uppercase to lowercase
@@ -57,6 +54,7 @@ jobs:
         run: echo "${{ secrets.DH_PAT }}" | docker login -u niprepsbot --password-stdin
 
       - name: Push image to DockerHub Container Registry
+        if: github.event_name == 'release'
         run: |
           IMAGE_ID=nipreps/${IMAGE_NAME}
           # Change all uppercase to lowercase
