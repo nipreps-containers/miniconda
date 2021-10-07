@@ -152,6 +152,11 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
 RUN /opt/conda/bin/python -c "from matplotlib import font_manager" && \
     sed -i 's/\(backend *: \).*$/\1Agg/g' $( /opt/conda/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
 
+# Install templateflow
 RUN /opt/conda/bin/python -m pip install --no-cache-dir templateflow
+
+# Installing SVGO and bids-validator
+RUN /opt/conda/bin/npm install -g svgo@^2.3 bids-validator@1.8.0 && \
+    rm -rf ~/.npm ~/.empty /root/.npm
 
 CMD ["/bin/bash"]
