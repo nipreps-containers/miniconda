@@ -147,5 +147,9 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
     chmod +x /opt/conda/bin/*; sync && \
     /opt/conda/bin/conda clean -afy && sync && \
     rm -rf ~/.conda ~/.cache/pip/*; sync
+    
+# Precaching fonts, set 'Agg' as default backend for matplotlib
+RUN /opt/conda/bin/python -c "from matplotlib import font_manager" && \
+    sed -i 's/\(backend *: \).*$/\1Agg/g' $( /opt/conda/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
 
 CMD ["/bin/bash"]
