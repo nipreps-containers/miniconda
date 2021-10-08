@@ -124,23 +124,51 @@ RUN apk add -q --no-cache bash procps && \
 
 RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      python=3.8 \
+                     attrs=21.2 \
+                     coverage=6.0 \
+                     codecov=2.1 \
+                     datalad=0.15 \
+                     dipy=1.4 \
                      git-annex=*=alldep* \
                      graphviz=2.49 \
+                     h5py=3.4 \
+                     indexed_gzip=1.6 \
+                     jinja2=2.11 \
                      libxml2=2.9 \
                      libxslt=1.1 \
+                     lockfile=0.12 \
                      matplotlib=3.3 \
                      mkl-service=2.4 \
                      mkl=2021.3 \
+                     nibabel=3.2 \
+                     nilearn=0.8 \
+                     nipype=1.6 \
+                     nitime=0.9 \
                      nodejs=16 \
                      numpy=1.20 \
+                     packaging=21 \
                      pandas=1.2 \
                      pandoc=2.14 \
                      pip=21.2 \
+                     psutil=5.8 \
+                     pydot=1.4 \
+                     pydotplus=2.0 \
+                     pytest=6.2 \
+                     pytest-cov=3.0 \
+                     pytest-env=0.6 \
+                     pyyaml=5.4 \
+                     requests=2.26 \
                      scikit-image=0.18 \
                      scikit-learn=0.24 \
                      scipy=1.6 \
+                     seaborn=0.11 \
                      setuptools=58.2 \
+                     sphinx=4.2 \
+                     sphinx_rtd_theme=0.5 \
+                     "svgutils>=0.3.4,<0.4" \
+                     toml=0.10 \
                      traits=6.2 \
+                     transform3d=0.3 \
                      zlib=1.2 \
                      zstd=1.5; sync && \
     chmod -R a+rX /opt/conda; sync && \
