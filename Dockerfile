@@ -168,7 +168,6 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      "svgutils>=0.3.4,<0.4" \
                      toml=0.10 \
                      traits=6.2 \
-                     transform3d \
                      zlib=1.2 \
                      zstd=1.5; sync && \
     chmod -R a+rX /opt/conda; sync && \
