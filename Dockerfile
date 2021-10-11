@@ -160,6 +160,7 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      pytest=6.2 \
                      pytest-cov=3.0 \
                      pytest-env=0.6 \
+                     pytest-xdist \
                      pyyaml=5.4 \
                      requests=2.26 \
                      scikit-image=0.18 \
@@ -184,7 +185,7 @@ RUN /opt/conda/bin/python -c "from matplotlib import font_manager" && \
     sed -i 's/\(backend *: \).*$/\1Agg/g' $( /opt/conda/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
 
 # Install packages that are not distributed with conda
-RUN /opt/conda/bin/python -m pip install --no-cache-dir \
+RUN /opt/conda/bin/python -m pip install --no-cache-dir -U \
                       etelemetry \
                       nitransforms \
                       templateflow \
