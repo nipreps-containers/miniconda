@@ -126,7 +126,7 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      python=3.8 \
                      attrs=21.2 \
                      codecov=2.1 \
-                     colorclass
+                     colorclass \
                      coverage=6.0 \
                      datalad=0.15 \
                      dipy=1.4 \
@@ -183,8 +183,12 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
 RUN /opt/conda/bin/python -c "from matplotlib import font_manager" && \
     sed -i 's/\(backend *: \).*$/\1Agg/g' $( /opt/conda/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
 
-# Install templateflow
-RUN /opt/conda/bin/python -m pip install --no-cache-dir templateflow transforms3d etelemetry nitransforms
+# Install packages that are not distributed with conda
+RUN /opt/conda/bin/python -m pip install --no-cache-dir \
+                      etelemetry \
+                      nitransforms \
+                      templateflow \
+                      transforms3d
 
 # Installing SVGO and bids-validator
 RUN /opt/conda/bin/npm install -g svgo@^2.3 bids-validator@1.8.0 && \
