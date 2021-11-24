@@ -59,7 +59,7 @@ ARG SHA256SUM=935d72deb16e42739d69644977290395561b7a6db059b316958d97939e9bdf3d
 
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
     echo "${SHA256SUM}  miniconda.sh" > miniconda.sha256 && \
-    if ! sha256sum -cs miniconda.sha256; then exit 1; fi && \
+    sha256sum -c --status miniconda.sha256 && \
     mkdir -p /opt && \
     sh miniconda.sh -b -p /opt/conda && \
     rm miniconda.sh miniconda.sha256 && \
