@@ -57,9 +57,7 @@ ENV PATH /opt/conda/bin:$PATH
 ARG CONDA_VERSION=py38_4.10.3
 ARG SHA256SUM=935d72deb16e42739d69644977290395561b7a6db059b316958d97939e9bdf3d
 
-# hadolint ignore=DL3018
-RUN apk add -q --no-cache bash procps && \
-    wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
     echo "${SHA256SUM}  miniconda.sh" > miniconda.sha256 && \
     if ! sha256sum -cs miniconda.sha256; then exit 1; fi && \
     mkdir -p /opt && \
