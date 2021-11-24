@@ -87,7 +87,7 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      libxml2=2.9 \
                      libxslt=1.1 \
                      lockfile=0.12 \
-                     matplotlib=3.3 \
+                     "matplotlib>=3.3,<4" \
                      mkl=2021.3 \
                      mkl-service=2.4 \
                      nibabel=3.2 \
