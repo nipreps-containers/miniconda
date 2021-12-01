@@ -77,7 +77,6 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      colorclass \
                      coverage=6.0 \
                      datalad=0.15 \
-                     dipy=1.4 \
                      flake8 \
                      git-annex=*=alldep* \
                      graphviz=2.49 \
@@ -111,7 +110,6 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      pytest-xdist \
                      pyyaml=5.4 \
                      requests=2.26 \
-                     scikit-image=0.18 \
                      scikit-learn=0.24 \
                      scipy=1.6 \
                      seaborn=0.11 \
@@ -133,11 +131,14 @@ RUN /opt/conda/bin/python -c "from matplotlib import font_manager" && \
     sed -i 's/\(backend *: \).*$/\1Agg/g' $( /opt/conda/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
 
 # Install packages that are not distributed with conda
+# TMP also postpone dipy and scikit-image due to issues with ski conda package
 RUN /opt/conda/bin/python -m pip install --no-cache-dir -U \
                       etelemetry \
                       nitransforms \
                       templateflow \
-                      transforms3d
+                      transforms3d \
+                      dipy~=1.4.1 \
+                      scikit-image~=0.18.3
 
 # Installing SVGO and bids-validator
 RUN /opt/conda/bin/npm install -g svgo@^2.3 bids-validator@1.8.0 && \
