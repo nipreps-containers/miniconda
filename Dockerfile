@@ -111,7 +111,7 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      pytest-xdist \
                      pyyaml=5.4 \
                      requests=2.26 \
-                     scikit-image=0.18 \
+                     scikit-image=0.19 \
                      scikit-learn=0.24 \
                      scipy=1.6 \
                      seaborn=0.11 \
