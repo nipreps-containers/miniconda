@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Log into GitHub Container Registry
-        run: echo "${{ secrets.GH_PACKAGES_TOKEN }}" | docker login https://docker.pkg.github.com -u nipreps-bot --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u nipreps-bot --password-stdin
 
       - uses: satackey/action-docker-layer-caching@v0.0.8
         # Ignore the failure of a step and avoid terminating the job.
