@@ -51,7 +51,7 @@ jobs:
           docker push $IMAGE_ID:$VERSION
 
       - name: Log into DockerHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.DH_PAT }}" | docker login -u niprepsbot --password-stdin
 
       - name: Push image to DockerHub Container Registry
         if: github.event_name == 'release'
