@@ -49,9 +49,8 @@ RUN locale-gen en_US.UTF-8 || true
 ENV LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8"
 
-ENV PATH /opt/conda/bin:$PATH
-
 # Leave these args here to better use the Docker build cache
+ENV CONDA_PATH="/opt/conda"
 ARG CONDA_VERSION=py38_4.10.3
 ARG SHA256SUM=935d72deb16e42739d69644977290395561b7a6db059b316958d97939e9bdf3d
 
@@ -59,16 +58,21 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}
     echo "${SHA256SUM}  miniconda.sh" > miniconda.sha256 && \
     sha256sum -c --status miniconda.sha256 && \
     mkdir -p /opt && \
-    sh miniconda.sh -b -p /opt/conda && \
+    sh miniconda.sh -b -p ${CONDA_PATH} && \
     rm miniconda.sh miniconda.sha256 && \
-    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    ln -s ${CONDA_PATH}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". ${CONDA_PATH}/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc && \
-    find /opt/conda/ -follow -type f -name '*.a' -delete && \
-    find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
-    /opt/conda/bin/conda clean -afy
+    find ${CONDA_PATH}/ -follow -type f -name '*.a' -delete && \
+    find ${CONDA_PATH}/ -follow -type f -name '*.js.map' -delete && \
+    ${CONDA_PATH}/bin/conda clean -afy
 
-RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
+# Set CPATH for packages relying on compiled libs (e.g. indexed_gzip)
+ENV PATH="${CONDA_PATH}/bin:$PATH" \
+    CPATH="${CONDA_PATH}/include:$CPATH" \
+    PYTHONNOUSERSITE=1
+
+RUN ${CONDA_PATH}/bin/conda install -c conda-forge -c anaconda \
                      python=3.8 \
                      attrs=21.2 \
                      codecov=2.1 \
@@ -123,22 +127,22 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      traits=6.2 \
                      zlib=1.2 \
                      zstd=1.5; sync && \
-    chmod -R a+rX /opt/conda; sync && \
-    chmod +x /opt/conda/bin/*; sync && \
-    /opt/conda/bin/conda clean -afy && sync && \
+    chmod -R a+rX ${CONDA_PATH}; sync && \
+    chmod +x ${CONDA_PATH}/bin/*; sync && \
+    ${CONDA_PATH}/bin/conda clean -afy && sync && \
     rm -rf ~/.conda ~/.cache/pip/*; sync
     
 # Precaching fonts, set 'Agg' as default backend for matplotlib
-RUN /opt/conda/bin/python -c "from matplotlib import font_manager" && \
-    sed -i 's/\(backend *: \).*$/\1Agg/g' $( /opt/conda/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
+RUN ${CONDA_PATH}/bin/python -c "from matplotlib import font_manager" && \
+    sed -i 's/\(backend *: \).*$/\1Agg/g' $( ${CONDA_PATH}/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
 
 # Install packages that are not distributed with conda
-RUN /opt/conda/bin/python -m pip install --no-cache-dir -U \
+RUN ${CONDA_PATH}/bin/python -m pip install --no-cache-dir -U \
                       etelemetry \
                       nitransforms \
                       templateflow \
                       transforms3d
 
 # Installing SVGO and bids-validator
-RUN /opt/conda/bin/npm install -g svgo@^2.3 bids-validator@1.8.0 && \
+RUN ${CONDA_PATH}/bin/npm install -g svgo@^2.3 bids-validator@1.8.0 && \
     rm -rf ~/.npm ~/.empty /root/.npm
