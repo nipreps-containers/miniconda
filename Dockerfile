@@ -104,7 +104,7 @@ RUN ${CONDA_PATH}/bin/conda install -c conda-forge -c anaconda \
                      pandas=1.2 \
                      pandoc=2.14 \
                      pbr \
-                     pip=21.2 \
+                     pip=21.3 \
                      pockets \
                      psutil=5.8 \
                      pydot=1.4 \
