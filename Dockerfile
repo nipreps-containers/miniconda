@@ -99,7 +99,7 @@ RUN ${CONDA_PATH}/bin/conda install -c conda-forge -c anaconda \
                      nipype=1.6 \
                      nitime=0.9 \
                      nodejs=16 \
-                     numpy=1.20 \
+                     numpy=1.22 \
                      packaging=21 \
                      pandas=1.2 \
                      pandoc=2.14 \
@@ -116,8 +116,8 @@ RUN ${CONDA_PATH}/bin/conda install -c conda-forge -c anaconda \
                      pyyaml=5.4 \
                      requests=2.26 \
                      scikit-image=0.19 \
-                     scikit-learn=0.24 \
-                     scipy=1.6 \
+                     scikit-learn=1.0 \
+                     scipy=1.8 \
                      seaborn=0.11 \
                      setuptools=58.2 \
                      sphinx=4.2 \
