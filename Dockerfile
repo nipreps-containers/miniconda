@@ -25,7 +25,7 @@ FROM ubuntu:focal-20210416
 # Make apt non-interactive
 RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci \
   && echo 'DPkg::Options "--force-confnew";' >> /etc/apt/apt.conf.d/90circleci
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Prepare environment
 RUN apt-get update && \
@@ -35,8 +35,6 @@ RUN apt-get update && \
                     build-essential \
                     bzip2 \
                     ca-certificates \
-                    curl \
-                    git \
                     libtool \
                     locales \
                     lsb-release \
@@ -76,9 +74,11 @@ RUN /opt/conda/bin/conda install -c conda-forge -c anaconda \
                      codecov=2.1 \
                      colorclass \
                      coverage=6.0 \
+                     curl \
                      datalad=0.15 \
                      dipy=1.4 \
                      flake8 \
+                     git \
                      git-annex=*=alldep* \
                      graphviz=2.49 \
                      h5py=3.2 \
