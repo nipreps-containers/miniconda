@@ -1,6 +1,6 @@
 # MIT License
 #
-# Copyright (c) 2021 The NiPreps Developers
+# Copyright (c) 2022 The NiPreps Developers
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -50,9 +50,10 @@ ENV LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8"
 
 # Leave these args here to better use the Docker build cache
+# miniconda index: https://conda.io/en/latest/miniconda_hashes.html
 ENV CONDA_PATH="/opt/conda"
-ARG CONDA_VERSION=py38_4.10.3
-ARG SHA256SUM=935d72deb16e42739d69644977290395561b7a6db059b316958d97939e9bdf3d
+ARG CONDA_VERSION=py39_4.12.0
+ARG SHA256SUM=78f39f9bae971ec1ae7969f0516017f2413f17796670f7040725dd83fcff5689
 
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
     echo "${SHA256SUM}  miniconda.sh" > miniconda.sha256 && \
@@ -72,66 +73,66 @@ ENV PATH="${CONDA_PATH}/bin:$PATH" \
     CPATH="${CONDA_PATH}/include:$CPATH" \
     PYTHONNOUSERSITE=1
 
-RUN ${CONDA_PATH}/bin/conda install -c conda-forge -c anaconda \
-                     python=3.8 \
-                     attrs=21.2 \
-                     codecov=2.1 \
-                     colorclass \
-                     coverage=6.0 \
-                     curl \
-                     datalad=0.15 \
-                     dipy=1.4 \
-                     flake8 \
-                     git \
-                     git-annex=*=alldep* \
-                     graphviz=2.49 \
-                     h5py=3.2 \
-                     indexed_gzip=1.6 \
-                     jinja2=2.11 \
-                     libxml2=2.9 \
-                     libxslt=1.1 \
-                     lockfile=0.12 \
-                     "matplotlib>=3.3,<4" \
-                     mkl=2021.3 \
-                     mkl-service=2.4 \
-                     nibabel=3.2 \
-                     nilearn=0.8 \
-                     nipype=1.6 \
-                     nitime=0.9 \
-                     nodejs=16 \
-                     numpy=1.22 \
-                     packaging=21 \
-                     pandas=1.2 \
-                     pandoc=2.14 \
-                     pbr \
-                     pip=21.3 \
-                     pockets \
-                     psutil=5.8 \
-                     pydot=1.4 \
-                     pydotplus=2.0 \
-                     pytest=6.2 \
-                     pytest-cov=3.0 \
-                     pytest-env=0.6 \
-                     pytest-xdist \
-                     pyyaml=5.4 \
-                     requests=2.26 \
-                     scikit-image=0.19 \
-                     scikit-learn=1.0 \
-                     scipy=1.8 \
-                     seaborn=0.11 \
-                     setuptools=58.2 \
-                     sphinx=4.2 \
-                     sphinx_rtd_theme=1.0 \
-                     "svgutils>=0.3.4,<0.4" \
-                     toml=0.10 \
-                     traits=6.2 \
-                     zlib=1.2 \
-                     zstd=1.5; sync && \
+COPY condarc /root/.condarc
+
+RUN ${CONDA_PATH}/bin/conda install mamba -n base && \
+    mamba install -y \
+        attrs=21.4 \
+        codecov=2.1 \
+        colorclass=2.2 \
+        coverage=6.3 \
+        curl=7.83 \
+        datalad=0.16 \
+        dipy=1.5 \
+        flake8=4.0 \
+        git=2.35 \
+        graphviz=3.0 \
+        h5py=3.6 \
+        indexed_gzip=1.6 \
+        jinja2=3.1 \
+        libxml2=2.9 \
+        libxslt=1.1 \
+        lockfile=0.12 \
+        matplotlib=3.5 \
+        mkl=2022.1 \
+        mkl-service=2.4 \
+        nibabel=3.2 \
+        nilearn=0.9 \
+        nipype=1.8 \
+        nitime=0.9 \
+        nodejs=16 \
+        numpy=1.22 \
+        packaging=21.3 \
+        pandas=1.4 \
+        pandoc=2.18 \
+        pbr=5.9 \
+        pip=22.0 \
+        pockets=0.9 \
+        psutil=5.9 \
+        pydot=1.4 \
+        pytest=7.1 \
+        pytest-cov=3.0 \
+        pytest-env=0.6 \
+        pytest-xdist=2.5 \
+        pyyaml=6.0 \
+        requests=2.27 \
+        scikit-image=0.19 \
+        scikit-learn=1.1 \
+        scipy=1.8 \
+        seaborn=0.11 \
+        setuptools=62.3 \
+        sphinx=4.5 \
+        sphinx_rtd_theme=1.0 \
+        svgutils=0.3 \
+        toml=0.10 \
+        traits=6.3 \
+        zlib=1.2 \
+        zstd=1.5; sync && \
     chmod -R a+rX ${CONDA_PATH}; sync && \
     chmod +x ${CONDA_PATH}/bin/*; sync && \
     ${CONDA_PATH}/bin/conda clean -afy && sync && \
     rm -rf ~/.conda ~/.cache/pip/*; sync
-    
+
 # Precaching fonts, set 'Agg' as default backend for matplotlib
 RUN ${CONDA_PATH}/bin/python -c "from matplotlib import font_manager" && \
     sed -i 's/\(backend *: \).*$/\1Agg/g' $( ${CONDA_PATH}/bin/python -c "import matplotlib; print(matplotlib.matplotlib_fname())" )
