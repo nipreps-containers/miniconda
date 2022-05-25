@@ -75,7 +75,8 @@ ENV PATH="${CONDA_PATH}/bin:$PATH" \
 
 COPY condarc /root/.condarc
 
-RUN ${CONDA_PATH}/bin/conda install \
+RUN ${CONDA_PATH}/bin/conda install mamba -n base \
++    && mamba install -y \
                     attrs=21.4 \
                     codecov=2.1 \
                     colorclass=2.2 \
