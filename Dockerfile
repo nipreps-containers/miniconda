@@ -99,7 +99,7 @@ RUN ${CONDA_PATH}/bin/conda install \
                     nilearn=0.9 \
                     nipype=1.8 \
                     nitime=0.9 \
-                    nodejs=17.9 \
+                    nodejs=16 \
                     numpy=1.22 \
                     packaging=21.3 \
                     pandas=1.4 \
