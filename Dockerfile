@@ -38,6 +38,7 @@ RUN apt-get update && \
                     libtool \
                     locales \
                     lsb-release \
+                    netbase \
                     pkg-config \
                     unzip \
                     wget \
@@ -139,6 +140,7 @@ RUN ${CONDA_PATH}/bin/python -c "from matplotlib import font_manager" && \
 
 # Install packages that are not distributed with conda
 RUN ${CONDA_PATH}/bin/python -m pip install --no-cache-dir -U \
+                      datalad-osf \
                       etelemetry \
                       nitransforms \
                       templateflow \
