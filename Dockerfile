@@ -53,8 +53,8 @@ ENV LANG="en_US.UTF-8" \
 # Leave these args here to better use the Docker build cache
 # miniconda index: https://conda.io/en/latest/miniconda_hashes.html
 ENV CONDA_PATH="/opt/conda"
-ARG CONDA_VERSION=py39_4.12.0
-ARG SHA256SUM=78f39f9bae971ec1ae7969f0516017f2413f17796670f7040725dd83fcff5689
+ARG CONDA_VERSION=py39_23.1.0-1
+ARG SHA256SUM=5dc619babc1d19d6688617966251a38d245cb93d69066ccde9a013e1ebb5bf18
 
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
     echo "${SHA256SUM}  miniconda.sh" > miniconda.sha256 && \
@@ -78,50 +78,50 @@ COPY condarc /root/.condarc
 
 RUN ${CONDA_PATH}/bin/conda install mamba -n base && \
     mamba install -y \
-        attrs=21.4 \
+        attrs=22.2 \
         codecov=2.1 \
         colorclass=2.2 \
         coverage=6.3 \
-        curl=7.83 \
-        datalad=0.16 \
+        curl=7.88 \
+        datalad=0.18 \
         dipy=1.5 \
         flake8=4.0 \
-        git=2.35 \
+        git=2.39 \
         graphviz=3.0 \
-        h5py=3.6 \
-        indexed_gzip=1.6 \
+        h5py=3.8 \
+        indexed_gzip=1.7 \
         jinja2=3.1 \
-        libxml2=2.9 \
+        libxml2=2.10 \
         libxslt=1.1 \
         lockfile=0.12 \
         matplotlib=3.5 \
         mkl=2022.1 \
         mkl-service=2.4 \
-        nibabel=3.2 \
+        nibabel=4.0 \
         nilearn=0.9 \
         nipype=1.8 \
         nitime=0.9 \
-        nodejs=16 \
-        numpy=1.22 \
-        packaging=21.3 \
-        pandas=1.4 \
-        pandoc=2.18 \
-        pbr=5.9 \
-        pip=22.0 \
+        nodejs=18 \
+        numpy=1.24 \
+        packaging=23.0 \
+        pandas=1.5 \
+        pandoc=2.19 \
+        pbr=5.11 \
+        pip=23.0 \
         pockets=0.9 \
         psutil=5.9 \
         pydot=1.4 \
-        pytest=7.1 \
-        pytest-cov=3.0 \
-        pytest-env=0.6 \
-        pytest-xdist=2.5 \
+        pytest=7.2 \
+        pytest-cov=4.0 \
+        pytest-env=0.8 \
+        pytest-xdist=3.2 \
         pyyaml=6.0 \
-        requests=2.27 \
+        requests=2.28 \
         scikit-image=0.19 \
-        scikit-learn=1.1 \
-        scipy=1.8 \
-        seaborn=0.11 \
-        setuptools=62.3 \
+        scikit-learn=1.2 \
+        scipy=1.10 \
+        seaborn=0.12 \
+        setuptools=65 \
         sphinx=4.5 \
         sphinx_rtd_theme=1.0 \
         svgutils=0.3 \
